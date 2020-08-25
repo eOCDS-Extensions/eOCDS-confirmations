@@ -1,0 +1,223 @@
+{
+  "definitions": {
+    "ConfirmationRequest": {
+      "type": "object",
+      "title": "Confirmation request",
+      "description": "Separate request for confirmation of the specific action taken or the data-outcome suggested automaticaly addresses to particular envolved party representatives",
+      "properties": {
+        "id": {
+          "title": "Identifier",
+          "description": "The identifier for this criterion. It must be unique and cannot change within the Open Contracting Process it is part of (defined by a single ocid). See the [identifier guidance](http://standard.open-contracting.org/latest/en/schema/identifiers/) for further details.",
+          "type": [
+            "string",
+            "integer"
+          ]
+        },
+        "type": "string",
+        "title": {
+          "title": "Title",
+          "description": "A title for this criterion.",
+          "type": "string"
+        },
+        "description": {
+          "title": "Description",
+          "description": "A description of this criterion. Structured information should be provided in its other fields.",
+          "type": "string"
+        },
+        "source": {
+          "title": "Source",
+          "description": "Source of response to the requirements specified in the criterion, for example responses may be submitted by tenderers or by an assessment committee at the procuringEntity.",
+          "type": "string",
+          "enum": [
+            "tenderer",
+            "buyer",
+            "procuringEntity",
+            "approvalBody"
+          ]
+        },
+        "relatesTo": {
+          "title": "Related schema element",
+          "description": "The schema element that the criterion judges, evaluates or assesses. For example criterion may be defined against items or against bidders.",
+          "type": "string",
+          "enum": [
+            "document",
+            "amendment",
+            "award",
+            "bid",
+            "value",
+            "metric"
+          ]
+        },
+        "relatedItem": {
+          "title": "Related item",
+          "description": "Where relatesTo = \"item\" this field must be populated with the id of the item in this tender section which the criterion relates to. Where relatesTo <> \"item\" this field should be omitted.",
+          "type": "string"
+        },
+        "requestGroups": {
+          "title": "",
+          "description": "",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/RequestGroup"
+          },
+          "uniqueItems": true
+        }
+      }
+    },
+    "RequestGroup": {
+      "type": "object",
+      "title": "",
+      "description": "",
+      "properties": {
+        "id": {
+          "title": "Identifier",
+          "description": "The identifier for this requirement group. It must be unique and cannot change within the Open Contracting Process it is part of (defined by a single ocid). See the [identifier guidance](http://standard.open-contracting.org/latest/en/schema/identifiers/) for further details.",
+          "type": "string"
+        },
+        "requests": {
+          "title": "Requests",
+          "description": "A list requirements which must all be satisfied for the requirement group to be met.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Requests"
+          }
+        }
+      }
+    },
+    "Request": {
+      "type": "object",
+      "title": "",
+      "description": "An atomic requirement. Requirements can specify the expected value that the response has to contain, or a range of threshold values within which the response has to fit in. The requirement may apply to a certain period of time.",
+      "properties": {
+        "id": {
+          "title": "Request identifier",
+          "description": "The identifier for this requirement. It must be unique and cannot change within the Open Contracting Process it is part of (defined by a single ocid). See the [identifier guidance](http://standard.open-contracting.org/latest/en/schema/identifiers/) for further details.",
+          "type": "string"
+        },
+        "title": {
+          "title": "Request title",
+          "description": "The title of this atomic requirement.",
+          "type": "string"
+        },
+        "description": {
+          "title": "Request description",
+          "description": "A free text description for this atomic requirement.",
+          "type": "string"
+        },
+        "dataType": {
+          "title": "Requirement datatype",
+          "description": "The data type in which the requirement response must be provided.",
+          "type": "object"
+        }
+      }
+    },
+    "ConfirmationResponse": {
+      "type": "object",
+      "title": "Requirement Response",
+      "description": "An assertion that responds to a single requirement. A requirement response provides the value for the requirement and may provide the period to which it applies.",
+      "required": [
+        "id",
+        "requirement"
+      ],
+      "properties": {
+        "id": {
+          "title": "Identifier",
+          "description": "The identifier for this requirement response. It must be unique and cannot change within the Open Contracting Process it is part of (defined by a single ocid). See the [identifier guidance](http://standard.open-contracting.org/latest/en/schema/identifiers/) for further details.",
+          "type": "string"
+        },
+        "title": {
+          "title": "Title",
+          "description": "A title for this requirement response.",
+          "type": "string"
+        },
+        "description": {
+          "title": "Description",
+          "description": "A description of this requirement response. Structured information should be provided in its other fields.",
+          "type": "string"
+        },
+        "value": {
+          "title": "Value",
+          "description": "The value of this requirement response. The value must be of the type defined in the requirement.dataType field.",
+          "type": [
+            "string",
+            "integer",
+            "number",
+            "null"
+          ]
+        },
+        "period": {
+          "title": "Period",
+          "description": "The period which the requirement response is applicable to.",
+          "$ref": "#/definitions/Period"
+        },
+        "requirement": {
+          "title": "Related requirement",
+          "description": "The id and title of the requirement which the response is applicable to.",
+          "$ref": "#/definitions/RequirementReference"
+        },
+        "relatedTenderer": {
+          "title": "Related tenderer",
+          "description": "Where this requirement response relates to a tenderer and is provided by the buyer or procuring entity this field should be used to reference the entry in the parties section for the tenderer the response relates to.",
+          "$ref": "#/definitions/OrganizationReference"
+        }
+      }
+    },
+    "RequirementReference": {
+      "type": "object",
+      "title": "Requirement reference",
+      "description": "Used to cross reference a requirement.",
+      "required": [
+        "id"
+      ],
+      "properties": {
+        "id": {
+          "title": "Requirement ID",
+          "description": "The id of the requirement which the response is applicable to.",
+          "type": "string"
+        },
+        "title": {
+          "title": "Requirement title",
+          "description": "The title of the requirement which the response is applicable to.",
+          "type": "string"
+        }
+      }
+    },
+    "Tender": {
+      "properties": {
+        "confirmationRequests": {
+          "title": "",
+          "description": "",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ConfirmationRequest"
+          }
+        }
+      }
+    },
+    "Award": {
+      "properties": {
+        "confirmationRequests": {
+          "title": "",
+          "description": "",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ConfirmationRequest"
+          }
+        }
+      }
+    },
+    "Contract": {
+      "properties": {
+        "requirementResponses": {
+          "title": "Requirement responses",
+          "description": "A list of the detailed responses of this contract to the requirements of the tender.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/RequirementResponse"
+          },
+          "uniqueItems": true
+        }
+      }
+    }
+  }
+}
