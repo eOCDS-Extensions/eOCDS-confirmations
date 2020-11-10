@@ -208,14 +208,13 @@
     },
     "Contract": {
       "properties": {
-        "requirementResponses": {
-          "title": "Requirement responses",
-          "description": "A list of the detailed responses of this contract to the requirements of the tender.",
+        "confirmationRequests": {
+          "title": "",
+          "description": "",
           "type": "array",
           "items": {
-            "$ref": "#/definitions/RequirementResponse"
-          },
-          "uniqueItems": true
+            "$ref": "#/definitions/ConfirmationRequest"
+          }
         }
       }
     }
